@@ -26,9 +26,13 @@
 	<div class=" col-span-4 grid grid-cols-2 grid-rows-2 gap-2">
 		<!-- Video elements -->
 		{#each source_urls as src}
-			<div class=" bg-gray-300 rounded">
+			<div class=" bg-gray-300 rounded flex items-center justify-center">
 				{#if src}
-					<img {src} alt="webcam" class="w-full h-full object-cover rounded" />
+					<img
+						src={`${src}?timestamp=${Math.random()}`}
+						alt="webcam"
+						class=" object-cover rounded"
+					/>
 				{:else}
 					<div class="flex items-center justify-center h-full">
 						<p class="text-gray-500">No video source available</p>

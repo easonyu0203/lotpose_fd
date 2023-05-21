@@ -8,6 +8,22 @@
 	} from '../utils/api_utils';
 	import { appState } from '../stores/appStateStore';
 
+	async function getWebcamInfo() {
+		let webcams = await fetchWebcamDeviceInfo();
+		const webcamNames: string[] = [];
+		for (const device of await navigator.mediaDevices.enumerateDevices()) {
+			if (device.kind === 'videoinput') {
+				webcamNames.push(device.label || 'Unnamed Webcam');
+			}
+		}
+
+		for (let index = 0; index < webcams.length; index++) {
+			webcams[index].device_name = webcamNames[index];
+		}
+
+		return webcams;
+	}
+
 	let selectedIndices: number[] = [];
 </script>
 
@@ -19,7 +35,7 @@
 	</h3>
 
 	<div class="mx-4 flex flex-col gap-2">
-		{#await fetchWebcamDeviceInfo()}
+		{#await getWebcamInfo()}
 			<p>Loading webcams...</p>
 		{:then webcams}
 			{#if webcams.length > 0}
